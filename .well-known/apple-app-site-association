@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "2JRPLKN666.wehbellc.Span",
+        "paths": ["/span-privacy/s", "/span-privacy/s?*"]
+      }
+    ]
+  }
+}

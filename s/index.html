@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Span — Shared Countdown</title>
+    <meta property="og:title" content="Someone shared a countdown with you!" />
+    <meta property="og:description" content="Open in Span to add this countdown to your collection." />
+    <meta property="og:image" content="https://wehbs.github.io/span-privacy/og-image.png" />
+    <meta property="og:type" content="website" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .card {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 22px;
+            padding: 32px;
+            max-width: 380px;
+            width: 100%;
+            text-align: center;
+        }
+        .emoji { font-size: 48px; margin-bottom: 16px; }
+        .name { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+        .date { font-size: 16px; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+        .badge {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #00d1d1;
+            background: rgba(0,209,209,0.12);
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary {
+            background: #00d1d1;
+            color: #000;
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .footer {
+            margin-top: 32px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="emoji" id="emoji"></div>
+        <div class="name" id="name">Shared Countdown</div>
+        <div class="date" id="date"></div>
+        <div class="badge" id="badge" style="display:none">Recurring yearly</div>
+        <a class="btn btn-primary" id="openBtn" href="#">Open in Span</a>
+        <a class="btn btn-secondary" href="https://apps.apple.com/app/id6759741231">Get Span Free</a>
+    </div>
+    <div class="footer">Span — Countdown & Time Tracker</div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get('name') || 'Countdown';
+        const emoji = params.get('emoji') || '';
+        const date = params.get('date') || '';
+        const isRecurring = params.get('isRecurring') === '1';
+        const colorTag = params.get('colorTag') || '';
+
+        document.getElementById('emoji').textContent = emoji || '⏱';
+        document.getElementById('name').textContent = emoji ? `${emoji} ${name}` : name;
+
+        if (date) {
+            const d = new Date(date);
+            document.getElementById('date').textContent = d.toLocaleDateString('en-US', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+        }
+
+        if (isRecurring) {
+            document.getElementById('badge').style.display = 'inline-block';
+        }
+
+        // Build span:// deep link for the "Open in Span" button
+        const spanURL = 'span://import?' + window.location.search.substring(1);
+        document.getElementById('openBtn').href = spanURL;
+
+        // Update OG title dynamically (won't work for crawlers but nice for JS-rendered previews)
+        document.title = `${emoji} ${name} — Span`;
+    </script>
+</body>
+</html>
